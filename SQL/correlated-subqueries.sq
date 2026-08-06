@@ -1,0 +1,37 @@
+CREATE DATABASE IF NOT EXISTS Company_db;
+USE Company_db;
+
+-- 1. Create Departments Table
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(100)
+);
+
+-- 2. Create Employees Table
+CREATE TABLE Employees (
+    emp_ID INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    DepartmentID INT,
+    Salary DECIMAL(10, 2),
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+-- 3. Insert Data
+INSERT INTO Departments VALUES 
+(1, 'IT'),
+(2, 'HR');
+
+INSERT INTO Employees VALUES 
+(101, 'Rahul', 1, 70000),
+(102, 'Priya', 1, 50000),
+(103, 'Aman',  1, 90000),
+(104, 'Neha',  2, 40000),
+(105, 'Vikas', 2, 60000);
+
+SELECT emp_ID, emp_name, Salary, DepartmentID
+FROM Employees e1
+WHERE Salary > (
+    SELECT AVG(Salary)
+    FROM Employees e2
+    WHERE e2.DepartmentID = e1.DepartmentID
+);
